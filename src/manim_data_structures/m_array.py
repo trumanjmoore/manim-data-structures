@@ -321,6 +321,15 @@ class MArrayElement(VGroup):
         else:
             return self
 
+        def get_body(self) -> Square:
+            return self.fetch_mob_square() #returns square class "Mobject" that represents the body
+        def get_value(self) -> Text:
+            return self.fetch_mob_value() #returns text class "Mobject" that represents the value
+        def get_index(self) -> Text:
+            return self.fetch_mob_index() #returns text class "Mobject" that represents the index
+        def get_label(self) -> Text:
+            return self.fetch_mob_label() #returns text class "Mobject" that represents the label
+
     def update_mob_value(
         self,
         mob_value_args: dict = {},
@@ -662,6 +671,27 @@ class MArray(VGroup):
                 self.__dir_map[self.__arr_label_pos.value]["arr"]
                 + self.__dir_map[self.__arr_dir.value]["arr"]
                 * ((len_after - len_before) / 2),
+            )
+    def calc_location(self) -> typing.Tuple[Square, np.ndarray]:
+        if np.array_equal("UP"):
+            return (
+                self.fetch_mob_square(),
+                self.__arr_label_pos.value
+            )
+        if np.array_equal("DOWN"):
+            return (
+                self.fetch_mob_square(),
+                self.__arr_label_pos.value
+            )
+        if np.array_equal("LEFT"):
+            return (
+                self.fetch_mob_square(),
+                self.__arr_label_pos.value
+            )
+        if np.array_equal("RIGHT"):
+            return (
+                self.fetch_mob_square(),
+                self.__arr_label_pos.value
             )
 
     def __calc_index(self, index: int) -> typing.Union[int, str]:
