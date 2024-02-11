@@ -673,6 +673,8 @@ class MArray(VGroup):
                 * ((len_after - len_before) / 2),
             )
     def calc_location(self) -> typing.Tuple[Square, np.ndarray]:
+        #Calculates the position of the array label relative to one of the element's square mobjects.
+        # returns square mobject that the array label is positioned with, and the position of the aray label
         if np.array_equal("UP"):
             return (
                 self.fetch_mob_square(),
@@ -692,6 +694,22 @@ class MArray(VGroup):
             return (
                 self.fetch_mob_square(),
                 self.__arr_label_pos.value
+            )
+
+        else:
+            # Label position is perpendicular to array growth direction
+            middle_index = len_before = len_after = 0
+            if len(self.__mob_arr) > 1:
+                odd_indices = len(self.__mob_arr) % 2 == 1
+                middle_index = int(len(self.__mob_arr) / 2)
+                len_before = self.__sum_elem_len(0, middle_index - 1)
+                len_after = self.__sum_elem_len(
+                    middle_index + 1 if odd_indices else middle_index,
+                    len(self.__mob_arr) - 1,
+                )
+            return (
+                self.fetch_mob_square(),
+                self.__arr_label_pos.value + self.__arr_dir.value * ((len_after - len_before) / 2)
             )
 
     def __calc_index(self, index: int) -> typing.Union[int, str]:
